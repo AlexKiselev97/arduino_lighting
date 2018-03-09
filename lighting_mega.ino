@@ -15,12 +15,9 @@ void setup() {
   rightPirActive = false;
   pinMode(LEFT_PIR, INPUT);
   pinMode(RIGHT_PIR, INPUT);
-  for (int i=0; i < 4; ++i)
-    pinMode(lamps[i], OUTPUT);
   delay(10000); //sensor calibration
   attachInterrupt(digitalPinToInterrupt(LEFT_PIR), leftPirInterrupt, RISING);
   attachInterrupt(digitalPinToInterrupt(RIGHT_PIR), rightPirInterrupt, RISING);
-  
 }
 
 void leftPirInterrupt()
@@ -35,20 +32,28 @@ void rightPirInterrupt()
   rightPirActive = true;
 }
 
+
+
 void leftPirLight()
 {
   analogWrite(FIRST, 255);
   analogWrite(LAST, 255);
   for (int i=0; i < 4; ++i)
   {
-    digitalWrite(lamps[i], HIGH);
-    delay(700);
+    for (int j=1; j < 256; ++j)
+    {
+      analogWrite(lamps[i], j);
+      delay(5);
+    }
   }
   delay(15000);
   for (int i=3; i >= 0; --i)
   {
-    digitalWrite(lamps[i], LOW);
-    delay(700);
+    for (int j=255; j >= 0; --j)
+    {
+      analogWrite(lamps[i], j);
+      delay(5);
+    }
   }
   leftPirActive = false;
   rightPirActive = false;
@@ -61,14 +66,20 @@ void rightPirLight()
   analogWrite(LAST, 255);
   for (int i=3; i >= 0; --i)
   {
-    digitalWrite(lamps[i], HIGH);
-    delay(700);
+    for (int j=1; j < 256; ++j)
+    {
+      analogWrite(lamps[i], j);
+      delay(5);
+    }
   }
   delay(15000);
   for (int i=0; i < 4; ++i)
   {
-    digitalWrite(lamps[i], LOW);
-    delay(700);
+    for (int j=255; j >= 0; --j)
+    {
+      analogWrite(lamps[i], j);
+      delay(5);
+    }
   }
   leftPirActive = false;
   rightPirActive = false;

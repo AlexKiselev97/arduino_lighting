@@ -32,8 +32,6 @@ void rightPirInterrupt()
   rightPirActive = true;
 }
 
-
-
 void leftPirLight()
 {
   analogWrite(FIRST, 255);

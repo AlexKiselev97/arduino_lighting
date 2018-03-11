@@ -1,4 +1,4 @@
-const int LEFT_PIR = 2;
+ const int LEFT_PIR = 2;
 const int RIGHT_PIR = 3;
 const int FIRST = 5;
 const int LAST = 12;
@@ -6,22 +6,18 @@ const int lamps[4] = {7, 8, 10, 11};
 const int BUTTON_PULSE_ENDS = 18;
 const int BUTTON_PULSE_ALL = 19;
 volatile bool noOne = true;
-volatile bool leftPirActive;
-volatile bool rightPirActive;
-volatile int mode;
+volatile bool leftPirActive = false;
+volatile bool rightPirActive = false;
+volatile int mode = 1;
 
 void setup() {
   pinMode(13, OUTPUT);
   digitalWrite(13, LOW);
-  noOne = true;
-  mode = 1;
-  leftPirActive = false;
-  rightPirActive = false;
   pinMode(LEFT_PIR, INPUT);
   pinMode(RIGHT_PIR, INPUT);
   pinMode(BUTTON_PULSE_ALL, INPUT_PULLUP);
   pinMode(BUTTON_PULSE_ENDS, INPUT_PULLUP);
-  delay(10000); //sensor calibration
+  delay(15000); //sensor calibration
   attachInterrupt(digitalPinToInterrupt(LEFT_PIR), leftPirInterrupt, RISING);
   attachInterrupt(digitalPinToInterrupt(RIGHT_PIR), rightPirInterrupt, RISING);
   attachInterrupt(digitalPinToInterrupt(BUTTON_PULSE_ENDS), buttonPulseEndsInterrupt, RISING);
@@ -58,22 +54,18 @@ void leftPirLight()
   analogWrite(FIRST, 255);
   analogWrite(LAST, 255);
   for (int i=0; i < 4; ++i)
-  {
     for (int j=1; j < 256; ++j)
     {
       analogWrite(lamps[i], j);
       delay(5);
     }
-  }
   delay(15000);
   for (int i=3; i >= 0; --i)
-  {
     for (int j=255; j >= 0; --j)
     {
       analogWrite(lamps[i], j);
       delay(5);
     }
-  }
   leftPirActive = false;
   rightPirActive = false;
   noOne = true;
@@ -84,22 +76,18 @@ void rightPirLight()
   analogWrite(FIRST, 255);
   analogWrite(LAST, 255);
   for (int i=3; i >= 0; --i)
-  {
     for (int j=1; j < 256; ++j)
     {
       analogWrite(lamps[i], j);
       delay(5);
     }
-  }
   delay(15000);
   for (int i=0; i < 4; ++i)
-  {
     for (int j=255; j >= 0; --j)
     {
       analogWrite(lamps[i], j);
       delay(5);
     }
-  }
   leftPirActive = false;
   rightPirActive = false;
   noOne = true;
